@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>上传图片</title>
+</head>
+<body>
+    <div id="imgbox"></div>
+
+    <input id="file" type="file" accept >
+
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="  crossorigin="anonymous"></script>
+
+    
+    <script>
+     
+        document.querySelector('input[type="file"]').addEventListener('change',function(){
+            let file = this.files[0];
+            var render = new FileReader();
+            
+            
+            render.onload = function(e){
+        
+                $.ajax({
+                    url:'/uplodimg',
+                    type:'POST',
+                    data:{
+                        imgData:this.result
+                    },
+                    success(data){
+                       if(data.code===200){
+                        $('#imgbox').append(`<img src='${data.img}' style='width:150px;'>`)
+                       }
+                    }
+                })
+            }
+            render.readAsDataURL(file)
+            // render.readAsBinaryString(file)
+            // render.readAsText(file); //乱码
+        })
+        
+        
+       
+    </script>
+</body>
+</html>
